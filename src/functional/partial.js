@@ -34,8 +34,31 @@ function curryProxy(fn) {
   })([])
 }
 
+function compose(...fn) {
+  return function (arg) {
+    const fnList = fn.slice()
+    while (fnList.length) {
+      arg = fnList.pop()(arg)
+    }
+    return arg
+  }
+}
+
+function compose2(...fn) {
+  const [fn1, fn2, ...rest] = fn.reverse()
+  function composed(...args) {
+    return fn2(fn1(...args))
+  }
+  if (rest.length) {
+    return compose2(...rest.reverse(), composed)
+  }
+  return composed
+}
+
 module.exports = {
   partial,
   curry,
-  curryProxy
+  curryProxy,
+  compose,
+  compose2
 }

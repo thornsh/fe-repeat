@@ -19,3 +19,20 @@ function filter(fn, arr) {
   }
   return result
 }
+
+function reduce(fn, init, arr) {
+  let result
+  let currentIndex
+  if (arguments.length === 3) {
+    result = init
+    currentIndex = 0
+  } else if (arguments.length === 2) {
+    arr = init
+    result = arr[0]
+    currentIndex = 1
+  }
+  for (let i = currentIndex; i < arr.length; i++) {
+    result = fn(result, arr[i], i, arr)
+  }
+  return result
+}
